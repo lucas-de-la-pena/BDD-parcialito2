@@ -49,6 +49,21 @@ WHERE
 ORDER BY 
     NOMBRE;
 
+-- RESULTADO --
+
+    -- nombre    | ataque | defensa 
+-- --------------+--------+---------
+ -- Diglett      |     55 |      25
+ -- Dugtrio      |    100 |      50
+ -- Graveler     |     95 |     115
+ -- Machamp      |    130 |      80
+ -- Muk          |    105 |      75
+ -- Nidoking     |    102 |      77
+ -- Nidoqueen    |     92 |      87
+ -- Sandshrew    |     75 |      85
+ -- Sandslash    |    100 |     110
+-- (9 rows)
+
 
 -- 2. Encontrar todos los Pokemon tienen movimientos de tipo 'Normal' y 'Flying',
 -- pero que no tienen ninguna del tipo 'Fire'.
