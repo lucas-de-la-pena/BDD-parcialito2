@@ -110,17 +110,19 @@ FROM pokemon P
 	JOIN poketype PT ON P.idpoke = PT.idpoke
 	JOIN type T ON T.idtype = PT.idtype
 GROUP BY T.idtype
-ORDER BY AVG(P.spattack) DESC LIMIT 5;
+ORDER BY AVG(P.spattack) DESC, T.typename ASC 
+LIMIT 5;
 
 /*
      tipo     | Promedio de SPATTACK 
 --------------+----------------------
- Dragon       |                125.0
  Dark         |                125.0
+ Dragon       |                125.0
  Ghost        |                115.0
  Steel        |                103.3
  Electric     |                 96.0
-(5 rows) */
+(5 rows)
+*/
 
 -- 4. Obtener el ID, nombre y la velocidad del Pokemon, para aquellos que tengan una
 -- suma de “poder” (power) de todos sus movimientos mayor a 250 y un promedio de
@@ -161,7 +163,7 @@ WITH PokemonesGround AS (SELECT *
 SELECT * 
 FROM PokemonesGround
 WHERE defense = (	SELECT MIN(defense)
-					FROM PokemonesGround);
+					FROM PokemonesGround	);
 
 /* 
  idpoke |   pokename   | hp | attack | defense | spattack | spdefense | speed | dualtype | idpoke | idtype | idtype |   typename   
@@ -172,3 +174,20 @@ WHERE defense = (	SELECT MIN(defense)
 
 -- 6. Encontrar aquellos Pokemons que conocen movimientos de todas las categorías
 -- (categories) posibles.
+SELECT P.idpoke, P.pokename
+FROM pokemon P
+	JOIN pokemoves PM ON P.idpoke=PM.idpoke
+	JOIN moves M ON PM.idmove=M.idmove
+	JOIN categories C ON M.idcat = C.idcat
+GROUP BY P.idpoke, P.pokename
+	HAVING (COUNT(DISTINCT M.idcat) = (SELECT COUNT(*) FROM categories));
+	
+/*  
+ idpoke |   pokename   
+ -------+--------------
+      3 | Venusaur    
+      4 | Charmander  
+     92 | Gastly      
+     93 | Haunter     
+     94 | Gengar      
+(5 rows) */
